@@ -34,7 +34,7 @@ echo "Setting ulimit at 4096 files..."
 ulimit -n 4096
 echo "Running Duplicity backup..."
 echo $DUPLICITY_OPTIONS
-duplicity $DUPLICITY_OPTIONS ~/dev cfpyrax+http://${CLOUD_CONTAINER}
+duplicity $DUPLICITY_OPTIONS $1 cfpyrax+http://${CLOUD_CONTAINER}
 
 echo "Removing old backups..."
 duplicity remove-older-than $REMOVE_OLDER_THAN --force cfpyrax+http://${CLOUD_CONTAINER}
