@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -v
+
 #
 # RAX-specific configuration
 #
@@ -27,14 +29,14 @@ export TIME_BETWEEN_FULLS="15D"
 # Remove old backups if older than ___ days (31D = 31 days)
 export REMOVE_OLDER_THAN="31D"
 
-export DUPLICITY_OPTIONS="--full-if-older-than $TIME_BETWEEN_FULLS --volsize 250 --exclude-other-filesystems \
-                          --sign-key $SIGNING_KEY_ID --encrypt-key $ENCRYPTION_KEY_ID"
+export DUPLICITY_OPTIONS="--full-if-older-than=$TIME_BETWEEN_FULLS --volsize=250 --exclude-other-filesystems \
+                          --sign-key=$SIGNING_KEY_ID --encrypt-key=$ENCRYPTION_KEY_ID"
 
 echo "Setting ulimit at 4096 files..."
 ulimit -n 4096
 echo "Running Duplicity backup..."
 echo $DUPLICITY_OPTIONS
-duplicity $DUPLICITY_OPTIONS $1 cfpyrax+http://${CLOUD_CONTAINER}
+duplicity $DUPLICITY_OPTIONS "$1" cfpyrax+http://${CLOUD_CONTAINER}
 
 echo "Removing old backups..."
 duplicity remove-older-than $REMOVE_OLDER_THAN --force cfpyrax+http://${CLOUD_CONTAINER}
